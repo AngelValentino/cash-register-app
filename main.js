@@ -3,6 +3,7 @@ const cashLm = document.getElementById('cash');
 const purchaseBtn = document.getElementById('purchase-btn');
 const resultLm = document.getElementById('change-due');
 
+let cidStatus = '';
 
 const currencyUnitCents = {
   PENNY: 1,
@@ -11,10 +12,10 @@ const currencyUnitCents = {
   QUARTER: 25,
   ONE: 100,
   FIVE: 500,
-  THEN: 1000,
+  TEN: 1000,
   TWENTY: 2000,
   'ONE HUNDRED': 10000
-}
+};
 
 const cashInDrawerCents = [
   ['PENNY', 101],
@@ -23,7 +24,7 @@ const cashInDrawerCents = [
   ['QUARTER', 425],
   ['ONE', 9000],
   ['FIVE', 5500],
-  ['THEN', 2000],
+  ['TEN', 2000],
   ['TWENTY', 6000],
   ['ONE HUNDRED', 10000]
 ];
@@ -32,7 +33,9 @@ const cashInDrawerCents = [
 
 
 const currencyUnitCentsArr = (Object.entries(currencyUnitCents));
-console.log(currencyUnitCentsArr)
+console.log(currencyUnitCentsArr);
+
+// VALIDATION
 
 function returnChange() {
   const cashCents = cashLm.value * 100;
@@ -50,55 +53,101 @@ function returnChange() {
     return;
   }
 
-
-
-
+  
 
   let moneyToReturn = cashCents - priceCents;
-  const newCurrObj = {};
+  const changeDue = moneyToReturn;
+  const totalInDrawer = cashInDrawerCents
+    .map((row) => row[1])
+    .reduce((acc, num) => acc + num, 0);
+
+    console.log(totalInDrawer)
+
+  const currQantObj = {};
+  let closestChangeName = '';
+  
 
   while (moneyToReturn > 0) {
-    const closestFromGoal = currencyUnitCentsArr
-    .map((row) => row[1])
-    .reverse()
-    .find((number) => number <= moneyToReturn)
+    const closestChange = Object.values(currencyUnitCents)
+      .reverse()
+      .find((number) => number <= moneyToReturn);
 
-    moneyToReturn -= closestFromGoal;
-
-    for (const currencyVal in currencyUnitCents) {
-      if (currencyUnitCents[currencyVal] === closestFromGoal) {
-        if (newCurrObj[currencyVal]) {
-          newCurrObj[currencyVal]++;
-        } else {
-          newCurrObj[currencyVal] = 1;
-        }
+    for (const key in currencyUnitCents) {
+      if (currencyUnitCents[key] === closestChange) {
+        closestChangeName = key;   
       }
     }
+
+    if (totalInDrawer < moneyToReturn) {
+      cidStatus = 'INSUFFICIENT_FUNDS';
+      console.log(1)
+      return;
+    }
+
+    if (totalInDrawer === changeDue) {
+      cidStatus = 'CLOSED';
+      // moneyToReturn -= closestChange; DOESN'T TAKE INTO ACCOUNT THE CASH BALANCE
+      console.log(closestChange)
+      cashInDrawerCents.find((row) => row[0] === closestChangeName)[1] =- closestChange; 
+    }
+
+    // if value of cid[item](value) >= closestChange
+
+    if (cashInDrawerCents.find((row) => row[0] === closestChangeName)[1] >= closestChange) {
+      moneyToReturn -= closestChange;
+      cashInDrawerCents.find((row) => row[0] === closestChangeName)[1] =- closestChange;
+      console.log(closestChange)
+
+    // else if value of cid[item](value) < closestChange
+   
+    } else if (cashInDrawerCents.find((row) => row[0] === closestChangeName)[1] < closestChange) {
+      // GET THE SMALLESET CID(VALUE) AFTER IT AND CHECK IF IS >= closestChange
+      // GET AS MANY smaller CID(VALUE) AS NEEDED TO === closestChange
+      // REMOVE FROM moneyToReturn AND cashInDrawer
+      // IF NO SMALLEST CID(VALUE) IS FOUND RETURN => STATUS = INSUFFICIENT_FUNDS
+    }
+
+
+    moneyToReturn -= closestChange;
+
+
+    /*while (moneyToReturn > 0) {
+      if (cid[specificItem](value) >= closestChange) {
+        moneyToReturn -= closestChange;
+        cid[specificItem] = cid[specificItem] - closestChange;
+        STATUS: OPEN;
+      
+      } else if (cid[specificItem](value) < closestChange) {
+        TRY TO GET THE SMALLEST cid(VALUE) AFTER {
+          if (item) {
+            STATUS: OPEN;
+            moneyToReturn -= cid(VALUE);
+            cid[specificItem] = cid[specificItem] - cid(VALUE);
+          } else {
+             STATUS: INSUFFICIENT_FUNDS
+             return;
+          }
+        }
+      } 
+    }
+
+    */
+
+    for (const key in currencyUnitCents) {
+      if (currencyUnitCents[key] === closestChange) {
+        currQantObj[key]
+          ? currQantObj[key]++
+          : currQantObj[key] = 1;            
+      }
+    }
+    
   }
 
-  const keysArr = Object.keys(currencyUnitCents);
-  const newCurrObjVal = {};
-
-  for (let key in newCurrObj) {
-    newCurrObjVal[key] = currencyUnitCents[key] * newCurrObj[key];
-  }
-
-  const cashToReturnMatrix = Object.entries(newCurrObjVal);
-  console.log(newCurrObj);
-  console.log(cashToReturnMatrix);
-
-  cashToReturnMatrix.forEach((row) => {
-    const currencyName = row[0];
-    const currencyVal = row[1];
-
-  });
-
-   // MATCH CURRENT NAME AND ARRAY NAME
-   // SUBTRACT CURRENT VALUE FROM ARRAY VALUE
-   // RETURN THE ARRAY
-
+  console.log(currQantObj);
+  console.log(cashInDrawerCents);
 }
 
+    
 
 
 
