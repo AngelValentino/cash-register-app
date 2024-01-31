@@ -35,7 +35,7 @@ function displayStatus() {
 }
 
 function displayChangeDue() {
-  for (key in currUnitReturnObj) {
+  for (const key in currUnitReturnObj) {
     resultLm.innerHTML += `<p>${key}: $${currUnitReturnObj[key]}</p>`
   }
 }
@@ -59,7 +59,7 @@ const getTotalCidCents = () => cid.reduce((acc, row) => acc + row[1] * 100, 0);
 
 function removeFromCid(currUnitReturnObj) {
   cid.forEach((row) => {
-    for (key in currUnitReturnObj) {
+    for (const key in currUnitReturnObj) {
       if (key === row[0]) {
         row[1] = Number((row[1] - currUnitReturnObj[key]).toFixed(2));
       }
