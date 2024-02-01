@@ -30,7 +30,7 @@ const cid = [
   ["ONE HUNDRED", 100]];
 
 
-function displatCid() {
+function displayCid() {
   const totalLm = document.getElementById('total');
   const cidLm = document.getElementById('cash-in-drawer');
 
@@ -93,7 +93,7 @@ function removeFromCid(currUnitReturnObj) {
         row[1] = Number((row[1] - currUnitReturnObj[key]).toFixed(2));
       }
     }
-    displatCid();
+    displayCid();
   });
 }
 
@@ -158,7 +158,7 @@ function checkChangeFromCid() {
 }
 
 
-displatCid();
+displayCid();
 
 purchaseBtn.addEventListener('click', checkChangeFromCid);
 
