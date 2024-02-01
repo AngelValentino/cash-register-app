@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  font-family: sans-serif;
+  min-width: 400px;
+}
+
+body, h1, p {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+
+/* CASH REGISTER APP CONTAINER */
+
+.app-container {
+  font-size: 1.5rem;
+}
+
+.input-cash, 
+.purchase-btn {
+  font-size: 1.5rem;
+}
+
+.app-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  column-gap: 30px;
+  padding: 30px;
+}
+
+
+/*CASH REGISTER*/
+
+.cash-register-container {
+  max-width: 350px;
+}
+
+.input-cash {
+  width: 100%;
+  border: 11px solid black;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #b3e59f;
+  margin-bottom: 30px;
+  font-family: "Press Start 2P", sans-serif;
+}
+
+.image-container {
+  position: relative;
+}
+
+.image-container > p {
+  position: absolute;
+  top: 8.5%;
+  right: 29%;
+  font-family: "Press Start 2P", sans-serif;
+  font-size: 0.65em;
+}
+
+.image-container img {
+  width: 100%;
+  display: block;
+}
+
+.purchase-btn {
+  width: 100%;
+  padding: 20px 0;
+  margin: 30px 0 0;
+  border-radius: 10px;
+  border: 11px solid black;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background-color: #efefef;
+}
+
+/* CASH IN DRAWER*/
+
+.cash-in-drawer {
+  background-color: #dbeaff;
+  padding: 15px 30px;
+  border-radius: 20px;
+  border: 11px solid black;
+}
+
+.cash-in-drawer p {
+  margin: 10px 0 0;
+  font-weight: bold;
+  color: #fff;
+  border-bottom: 5px solid black;
+  font-size: 0.84em;
+  line-height: 2.5em;
+}
+
+.cash-in-drawer .unit {
+  background-color: black;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.cash-in-drawer .equal-sign {
+  background-color: #fe646f;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.cash-in-drawer .unit-value {
+  background-color: green;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+
+/* CHANGE DUE */
+
+.change-due {
+  border: 11px solid black;
+  padding: 15px 25px;
+  background-color: #dbeaff;
+}
+
+.remove-background-color {
+  background-color: #fff;
+}
+
+.change-due > p:nth-of-type(2)  {
+  margin-top: 10px;
+}
+
+.change-due > div:nth-of-type(1)  {
+  margin-top: 10px;
+}
+
+.unit-change {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cid-status {
+  border: 3px dashed black;
+  padding: 5px;
+  font-weight: bold;
+}
+
+.total-change {
+  border-top: 3px dashed black;
+  margin-top: 10px;
+  padding: 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/* MEDIA QUERY FOR MOBILE */
+
+@media screen and (max-width: 780px) {
+  .app-container {
+    grid-template-columns: 1fr;
+    row-gap: 30px;
+    column-gap: 0;
+  }
+}
+
+/* MEDIA SCREEN FOR HOVER CAPABLE DEVICES*/
+
+@media screen and (hover: hover) {
+  .purchase-btn:hover {
+    background-color: #fe646f;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+/* ACTIVE LINKS*/
+
+.purchase-btn:active {
+  background-color: #fd4450;
+  color: #fff;
+}

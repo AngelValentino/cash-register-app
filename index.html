@@ -8,9 +8,20 @@
 </head>
 <body>
   <main>
-    <input id="cash" type="number">
-    <div id="change-due"></div>
-    <button id="purchase-btn">Purchase</button>
+    <div class="app-container">
+      <div class="cash-register-container">
+        <input placeholder="$" class="input-cash" id="cash" type="number">
+        <div class="image-container">
+          <p id="total"></p>
+          <img src="images/cash-register.png" alt="cash register">
+        </div>
+        <div class="change-due" id="change-due"></div>
+        <button class="purchase-btn" id="purchase-btn">Purchase</button>
+      </div>
+      <div class="cid-container">
+        <div class="cash-in-drawer" id="cash-in-drawer"></div>
+      </div>
+    </div>
   </main>
   <script src="main.js"></script>
 </body>

@@ -1,6 +1,7 @@
+const resultLm = document.getElementById('change-due');
 const cashLm = document.getElementById('cash');
 const purchaseBtn = document.getElementById('purchase-btn');
-const resultLm = document.getElementById('change-due');
+
 
 const price = 3.26;
 let cidStatus = '';
@@ -30,26 +31,55 @@ const cid = [
   ["ONE HUNDRED", 100]];
 
 
+function displatCid() {
+  const totalLm = document.getElementById('total');
+  const cidLm = document.getElementById('cash-in-drawer');
+
+  totalLm.innerText = `$${price}`;
+  cidLm.innerHTML = cid
+    .map((row) => `
+      <p>
+        <span class="unit">${row[0][0] + row[0].slice(1).toLowerCase()}</span> 
+        <span class="equal-sign">=</span> 
+        <span class="unit-value">$${row[1]}</span>
+      </p>
+    `)
+    .join('');
+}  
+
+
 function displayStatus() {
-  resultLm.innerHTML = `<p>Status: ${cidStatus}</p>`;
+  resultLm.innerHTML = `<p class="cid-status">Status: ${cidStatus}</p>`;
+  resultLm.classList.add('remove-background-color');
 }
 
 function displayChangeDue() {
   for (const key in currUnitReturnObj) {
-    resultLm.innerHTML += `<p>${key}: $${currUnitReturnObj[key]}</p>`
+    resultLm.innerHTML += `<p>${key}: $${currUnitReturnObj[key]}</p>
+    `
   }
+
+  resultLm.classList.add('remove-background-color');
+
+  /*`<div class="unit-change" id="change-receipt-container">
+      <p>${key}:</p> <p>$${currUnitReturnObj[key]}</p>
+      </div>
+    `*/ 
+
+  /*const changeDue = (cashLm.value - price).toFixed(2);
+  resultLm.innerHTML += `<div class="total-change"><p>Total:</p><p>$${changeDue}</p></div>`*/
 }
 
-function validateInput(cashCents) {
-  if (!cashCents) {
+function validateInput(cashCts) {
+  if (!cashCts) {
     alert('Please insert a valid number');
     return 1;
   
-  } else if (cashCents < price * 100) {
+  } else if (cashCts < price * 100) {
     alert('Customer does not have enough money to purchase the item');
     return 2;
   
-  } else if (cashCents === price * 100) {
+  } else if (cashCts === price * 100) {
     resultLm.innerHTML = `<p>No change due - customer paid with exact cash</p>`;
     return 3;
   }
@@ -64,13 +94,14 @@ function removeFromCid(currUnitReturnObj) {
         row[1] = Number((row[1] - currUnitReturnObj[key]).toFixed(2));
       }
     }
+    displatCid();
   });
 }
 
 function getChangeDue(changeDueCts) {
   for (let i = cid.length - 1; i >= 0; i--) {
     const currUnitName = cid[i][0];
-    const currUnitTotalCts = Math.ceil(cid[i][1] * 100);
+    const currUnitTotalCts = Math.round(cid[i][1] * 100);
     const currUnitValueCts = currencyUnitCents[currUnitName];
     let currUnitAmmount = currUnitTotalCts / currUnitValueCts;
     let currUnitReturn = 0;
@@ -99,14 +130,14 @@ function getChangeDue(changeDueCts) {
 
 
 function checkChangeFromCid() {
-  const cashCents = cashLm.value * 100;
+  const cashCts = cashLm.value * 100;
   const totalCidCts = getTotalCidCents();
-  let changeDueCts = cashCents - price * 100;
+  let changeDueCts = cashCts - price * 100;
   
   currUnitReturnObj = {};
   resultLm.innerHTML = '';
   
-  if (validateInput(cashCents)) {
+  if (validateInput(cashCts)) {
     return;
   }
 
@@ -127,5 +158,6 @@ function checkChangeFromCid() {
 }
 
 
-purchaseBtn.addEventListener('click', checkChangeFromCid);
+displatCid();
 
+purchaseBtn.addEventListener('click', checkChangeFromCid);
