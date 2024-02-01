@@ -133,6 +133,7 @@ function checkChangeFromCid() {
   const totalCidCts = getTotalCidCents();
   let changeDueCts = cashCts - price * 100;
   
+  cashLm.value = '';
   currUnitReturnObj = {};
   resultLm.innerHTML = '';
   
