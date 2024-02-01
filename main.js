@@ -2,7 +2,6 @@ const resultLm = document.getElementById('change-due');
 const cashLm = document.getElementById('cash');
 const purchaseBtn = document.getElementById('purchase-btn');
 
-
 const price = 3.26;
 let cidStatus = '';
 let currUnitReturnObj = {};
@@ -161,3 +160,9 @@ function checkChangeFromCid() {
 displatCid();
 
 purchaseBtn.addEventListener('click', checkChangeFromCid);
+
+cashLm.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    checkChangeFromCid();
+  }
+})
