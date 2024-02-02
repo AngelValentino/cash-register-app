@@ -46,27 +46,22 @@ function displayCid() {
     .join('');
 }  
 
-
 function displayStatus() {
   resultLm.innerHTML = `<p class="cid-status">Status: ${cidStatus}</p>`;
   resultLm.classList.add('remove-background-color');
 }
 
-function displayChangeDue() {
+function displayChangeDue(cashVal) {
   for (const key in currUnitReturnObj) {
-    resultLm.innerHTML += `<p>${key}: $${currUnitReturnObj[key]}</p>
+    resultLm.innerHTML += `<div class="unit-change" id="change-receipt-container">
+      <p>${key}:</p> <p>$${currUnitReturnObj[key]}</p>
+    </div>
     `
   }
-
   resultLm.classList.add('remove-background-color');
 
-  /*`<div class="unit-change" id="change-receipt-container">
-      <p>${key}:</p> <p>$${currUnitReturnObj[key]}</p>
-      </div>
-    `*/ 
-
-  /*const changeDue = (cashLm.value - price).toFixed(2);
-  resultLm.innerHTML += `<div class="total-change"><p>Total:</p><p>$${changeDue}</p></div>`*/
+  const changeDue = (cashVal - price).toFixed(2);
+  resultLm.innerHTML += `<div class="total-change"><p>TOTAL:</p><p>$${changeDue}</p></div>`
 }
 
 function validateInput(cashCts) {
@@ -97,7 +92,7 @@ function removeFromCid(currUnitReturnObj) {
   });
 }
 
-function getChangeDue(changeDueCts) {
+function getChangeDue(changeDueCts, cashVal) {
   for (let i = cid.length - 1; i >= 0; i--) {
     const currUnitName = cid[i][0];
     const currUnitTotalCts = Math.round(cid[i][1] * 100);
@@ -123,21 +118,24 @@ function getChangeDue(changeDueCts) {
   }
 
   displayStatus();
-  displayChangeDue();
+  displayChangeDue(cashVal);
   removeFromCid(currUnitReturnObj);
 }
 
-
 function checkChangeFromCid() {
-  const cashCts = cashLm.value * 100;
+  const cashVal = Number(cashLm.value);
+  const cashCts = Math.round(Number(cashVal) * 100);
   const totalCidCts = getTotalCidCents();
   let changeDueCts = cashCts - price * 100;
   
   cashLm.value = '';
   currUnitReturnObj = {};
   resultLm.innerHTML = '';
-  
+
   if (validateInput(cashCts)) {
+    if (resultLm.classList.contains('remove-background-color')) {
+      resultLm.classList.remove('remove-background-color');
+    }
     return;
   }
 
@@ -148,12 +146,12 @@ function checkChangeFromCid() {
   
   } else if (totalCidCts === changeDueCts) {
     cidStatus = 'CLOSED';
-    getChangeDue(changeDueCts);
+    getChangeDue(changeDueCts, cashVal);
     return;
   
   } else {
     cidStatus = 'OPEN';
-    getChangeDue(changeDueCts);
+    getChangeDue(changeDueCts, cashVal);
   }
 }
 
@@ -166,4 +164,5 @@ cashLm.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     checkChangeFromCid();
   }
-})
+});
+
